@@ -1,0 +1,73 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+stages:
+  - stage: Build
+    jobs:
+      - job: job1
+        steps:
+        - script: echo Hello, world!----updated within job1
+          displayName: 'Run first step in job1'
+
+        - script: |
+            echo Add other tasks to build, test, and deploy your project.
+            echo This is step 2  in  job1
+          displayName: 'Run second step which contains multiple lines in job1'
+
+      - job: job2
+        steps:
+          - script: echo This is a step job2
+            displayName: 'Run first step in job2'
+
+  - stage: DevDeploy
+    jobs:
+        - job: DevDeployJob
+          steps:
+          - script: echo this is DevDeployJob
+ 
+ 
+  - stage: QADeploy
+    dependsOn: Build
+    jobs:
+      - job: QADeployJob
+        steps:
+        - script: echo this is QADeployJob
+
+
+
+  - stage: ProdDeploy
+    dependsOn: 
+      - DevDeploy
+      - QADeploy
+    jobs:
+      - job: ProdDeployJob
+        steps:
+        - script: echo this is ProdDeployJob
+
+
+
+$ rm -rf .git
+
+Admin@ADMIN-G9DPN9HV5 MINGW64 /c/third-service
+$ ls
+
+Admin@ADMIN-G9DPN9HV5 MINGW64 /c/third-service
+$ git init
+Initialized empty Git repository in C:/third-service/.git/
+
+Admin@ADMIN-G9DPN9HV5 MINGW64 /c/third-service (master)
+$ git add .
+
+ git commit -m "test commit"
+git remote add origin remote-repository-url
+git branch -M main
+git push -u origin main
+
+pipelines--->select the pipeline--->edit---->trigger---->yaml tab--->change the file name-->save & queue
